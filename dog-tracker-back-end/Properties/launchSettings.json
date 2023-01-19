@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "dog_tracker_back_end": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7055",
+      "launchBrowser": false
+    }
+  }
+}

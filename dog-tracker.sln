@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "dog-tracker-front-end", "dog-tracker-front-end\dog-tracker-front-end.esproj", "{28FE84E7-FA68-466C-8EAF-8B7BFF6478FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dog-tracker-back-end", "dog-tracker-back-end\dog-tracker-back-end.csproj", "{8843E20F-B2DA-48BB-869A-1D97B48CFF26}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{28FE84E7-FA68-466C-8EAF-8B7BFF6478FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28FE84E7-FA68-466C-8EAF-8B7BFF6478FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28FE84E7-FA68-466C-8EAF-8B7BFF6478FD}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{28FE84E7-FA68-466C-8EAF-8B7BFF6478FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28FE84E7-FA68-466C-8EAF-8B7BFF6478FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28FE84E7-FA68-466C-8EAF-8B7BFF6478FD}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{8843E20F-B2DA-48BB-869A-1D97B48CFF26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8843E20F-B2DA-48BB-869A-1D97B48CFF26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8843E20F-B2DA-48BB-869A-1D97B48CFF26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8843E20F-B2DA-48BB-869A-1D97B48CFF26}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E10C6D8D-643D-4056-B91B-25A5A47E0884}
+	EndGlobalSection
+EndGlobal
