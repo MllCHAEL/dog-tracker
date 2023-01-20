@@ -1,5 +1,5 @@
 // TODO: Add style for margin/s
-// TODO: Add fixed table width (or consider min - will limit or truncate inputs elsewhere)
+// TODO: Set table min & max widths (check mobile view too) Note: Inputs length restrictions elsewhere
 
 table {
   table-layout: auto;
@@ -19,8 +19,4 @@ th, td {
 
 tr:hover {
   background-color: #0000001f;
-}
-
-.mt-16 {
-  margin-top: 16px
 }
