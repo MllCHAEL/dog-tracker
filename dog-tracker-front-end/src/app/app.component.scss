@@ -1,0 +1,22 @@
+// TODO: Add style for margin/s
+// TODO: Add fixed table width (or consider min - will limit or truncate inputs elsewhere)
+
+table {
+  table-layout: auto;
+  border-spacing: 0;
+  background: white;
+  box-shadow: 0 5px 5px -3px #0003, 0 8px 10px 1px #00000024, 0 3px 14px 2px #0000001f;
+}
+
+th, td {
+  text-align: left;
+  padding: 0 16px 0 16px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #0000001f;
+  // TODO: Decide on font
+}
+
+tr:hover {
+  background-color: #0000001f;
+}
