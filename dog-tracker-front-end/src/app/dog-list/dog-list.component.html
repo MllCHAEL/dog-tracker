@@ -1,0 +1,16 @@
+<table class="mt-16">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Barks a lot</th>
+      <th>Id (here temporarily)</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="dogs">
+    <tr *ngFor="let dog of dogs">
+      <td *ngIf="dogs">{{dog.name}}</td>
+      <td *ngIf="dogs">{{dog.barksALot}}</td>
+      <td *ngIf="dogs">{{dog.id}}</td>
+    </tr>
+  </tbody>
+</table>
