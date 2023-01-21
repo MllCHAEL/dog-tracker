@@ -6,8 +6,8 @@
       <th>Id (here temporarily)</th>
     </tr>
   </thead>
-  <tbody *ngIf="dogs">
-    <tr *ngFor="let dog of dogs">
+  <tbody *ngIf="dogList">
+    <tr *ngFor="let dog of dogList">
       <td>{{dog.name}}</td>
       <td>{{dog.barksALot}}</td>
       <td>{{dog.id}}</td>

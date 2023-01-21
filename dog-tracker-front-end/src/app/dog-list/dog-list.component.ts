@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Dog } from '../dog';
 
@@ -8,13 +9,11 @@ import { Dog } from '../dog';
 })
 
 export class DogListComponent implements OnInit {
-  public dogs: Dog[] = [];
+  public dogList: Dog[] = [];
+
+  constructor(private http: HttpClient) { };
 
   ngOnInit() {
-    this.dogs = [{ id: 1, name: 'Bear', barksALot: true },
-    { id: 2, name: 'Jazzie', barksALot: false },
-    { id: 5, name: 'Barkley', barksALot: true },
-    { id: 3, name: 'Roofas', barksALot: true },
-    { id: 4, name: 'Woofred', barksALot: false }];
-  }
+    this.http.get<Dog[]>('http://localhost:7071/api/GetDogs').subscribe(dogs => this.dogList = dogs)
+  };
 }

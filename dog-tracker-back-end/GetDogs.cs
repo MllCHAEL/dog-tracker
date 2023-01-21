@@ -1,4 +1,6 @@
 using System.Net;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
@@ -15,19 +17,36 @@ namespace dog_tracker_back_end
         }
 
         [Function("GetDogs")]
-        public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req)
+        public async Task<List<Dog>> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req)
         {
-            // TODO: Update log message to be accurate / function-specific
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
-            // TODO: Return actual dog list from CosmosDB (note: return below likely to change)
+            var cosmosDefaultUrl = "https://localhost:8081/";
+            var cosmosDefaultKey = "cosmosDefaultKey"; // TODO: Don't reveal secret in source code
+            CosmosClient cosmosClient = new CosmosClient(cosmosDefaultUrl, cosmosDefaultKey);
 
-            var response = req.CreateResponse(HttpStatusCode.OK);
-            response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
+            var databaseName = "DogAppDatabase";
+            var collectionName = "DogsListContainer";
+            var cosmosContainer = cosmosClient.GetContainer(databaseName, collectionName);
 
-            response.WriteString("Welcome to Azure Functions!");
+            using FeedIterator<Dog> feed = cosmosContainer.GetItemQueryIterator<Dog>(
+                queryText: "SELECT * FROM DogsListContainer");
 
-            return response;
+            List<Dog> dogList = new List<Dog>();
+
+            while (feed.HasMoreResults)
+            {
+                FeedResponse<Dog> results = await feed.ReadNextAsync();
+
+                foreach (Dog item in results)
+                {
+                    dogList.Add(item);
+                }
+            }
+
+            // TODO: Add logging
+
+            return dogList;
         }
     }
 }

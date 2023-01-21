@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "dog-tracker-front-end", "dog-tracker-front-end\dog-tracker-front-end.esproj", "{28FE84E7-FA68-466C-8EAF-8B7BFF6478FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dog-tracker-back-end", "dog-tracker-back-end\dog-tracker-back-end.csproj", "{8843E20F-B2DA-48BB-869A-1D97B48CFF26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dog-tracker-back-end", "dog-tracker-back-end\dog-tracker-back-end.csproj", "{8843E20F-B2DA-48BB-869A-1D97B48CFF26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
