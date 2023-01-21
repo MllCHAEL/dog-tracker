@@ -1,4 +1,5 @@
 using System.Net;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
@@ -14,17 +15,29 @@ namespace dog_tracker_back_end
             _logger = loggerFactory.CreateLogger<AddDog>();
         }
 
-        [Function("AddDog")]
-        public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req)
+        public class Dog
         {
+            public string name { get; set; } = null!;
+            public bool barksALot { get; set; }
+
+            public Dog(string name, bool barksALot)
+            {
+                this.name = name;
+                this.barksALot = barksALot;
+            }
+        }
+
+        [Function("AddDog")]
+        // TODO: Convert to just POST
+        public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req)
+        {
+            // TODO: Update log message to be accurate / function-specific
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
-            var response = req.CreateResponse(HttpStatusCode.OK);
-            response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
+            // TODO: Upload new dog to CosmosDB
+            // TODO: Return actual dog list from CosmosDB after upload (note: return below likely to change)
 
-            response.WriteString("Welcome to Azure Functions!");
-
-            return response;
+            return new OkObjectResult(new Dog(name: "Roofas", barksALot: true));
         }
     }
 }

@@ -8,7 +8,7 @@ import { Dog } from '../dog';
 })
 
 export class DogListComponent implements OnInit {
-  dogs: Dog[] = [];
+  public dogs: Dog[] = [];
 
   ngOnInit() {
     this.dogs = [{ id: 1, name: 'Bear', barksALot: true },

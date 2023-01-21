@@ -17,7 +17,11 @@ namespace dog_tracker_back_end
         [Function("DeleteDog")]
         public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req)
         {
+            // TODO: Update log message to be accurate / function-specific
             _logger.LogInformation("C# HTTP trigger function processed a request.");
+
+            // TODO: Delete dog from cosmos db
+            // TODO: Return actual dog list from CosmosDB after upload (note: return below likely to change)
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             response.Headers.Add("Content-Type", "text/plain; charset=utf-8");

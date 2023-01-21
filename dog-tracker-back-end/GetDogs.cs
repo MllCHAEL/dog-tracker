@@ -17,7 +17,10 @@ namespace dog_tracker_back_end
         [Function("GetDogs")]
         public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req)
         {
+            // TODO: Update log message to be accurate / function-specific
             _logger.LogInformation("C# HTTP trigger function processed a request.");
+
+            // TODO: Return actual dog list from CosmosDB (note: return below likely to change)
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
