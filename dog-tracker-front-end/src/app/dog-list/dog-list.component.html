@@ -7,8 +7,8 @@
     </tr>
   </thead>
   <tbody *ngIf="!dogList">Loading...</tbody>
-  <tbody *ngIf="dogList.length == 0">No dog data to display</tbody>
   <tbody *ngIf="dogList">
+    <tr *ngIf="dogList.length === 0">No dog data to display</tr>
     <tr *ngFor="let dog of dogList">
       <td>{{dog.name}}</td>
       <td>{{dog.barksALot}}</td>
