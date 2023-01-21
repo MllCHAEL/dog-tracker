@@ -9,7 +9,7 @@ import { Dog } from '../dog';
 })
 
 export class DogListComponent implements OnInit {
-  public dogList: Dog[] = [];
+  public dogList!: Dog[];
 
   constructor(private http: HttpClient) { };
 

@@ -6,6 +6,8 @@
       <th>Id (here temporarily)</th>
     </tr>
   </thead>
+  <tbody *ngIf="!dogList">Loading...</tbody>
+  <tbody *ngIf="dogList.length == 0">No dog data to display</tbody>
   <tbody *ngIf="dogList">
     <tr *ngFor="let dog of dogList">
       <td>{{dog.name}}</td>
