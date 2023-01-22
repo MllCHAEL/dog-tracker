@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { take } from 'rxjs/operators';
+import { concatMap, take, tap } from 'rxjs/operators';
 import { Dog } from '../dog';
 
 @Component({
@@ -45,11 +45,10 @@ export class DogFormComponent {
       "barksALot": this.dogForm.controls.barksALot.value
     };
 
-    this.http.post('http://localhost:7071/api/AddDog', newDog, httpOptions).subscribe(result => {
-      console.log(`New dog '${newDog.name}' added.\nRequest details: `, result),
-        this.http.get<Dog[]>('http://localhost:7071/api/GetDogs').pipe(take(1)).subscribe(
-          newDogList => this.dogAddedEvent.emit(newDogList))
-    });
+    this.http.post('http://localhost:7071/api/AddDog', newDog, httpOptions).pipe(take(1),
+      tap(dogAdded => console.log(`New dog '${newDog.name}' added.\nRequest details: `)),
+      concatMap(getNewDogList => this.http.get<Dog[]>('http://localhost:7071/api/GetDogs').pipe(take(1),
+        tap(newDogList => this.dogAddedEvent.emit(newDogList))))).subscribe();
 
     this.dogForm.reset();
     this.dogForm.controls.barksALot.setValue(false);

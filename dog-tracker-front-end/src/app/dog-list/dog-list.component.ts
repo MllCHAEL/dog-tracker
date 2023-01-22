@@ -15,11 +15,10 @@ export class DogListComponent implements OnInit {
   constructor(private http: HttpClient) { };
 
   deleteDog(dogData: Dog) {
-    // TODO: Update post to a delete (alongside AzFn)
     // TODO: Encode dogData before appending to url
     this.http.delete(`http://localhost:7071/api/DeleteDog/${dogData.id}`).pipe(take(1),
       tap(dogDeleted => console.log(`Dog '${dogData.name}' deleted`)),
-      concatMap(newDogList => this.http.get<Dog[]>('http://localhost:7071/api/GetDogs').pipe(take(1),
+      concatMap(getNewDogList => this.http.get<Dog[]>('http://localhost:7071/api/GetDogs').pipe(take(1),
         tap(newDogList => this.dogList = newDogList)))).subscribe();
   }
 
