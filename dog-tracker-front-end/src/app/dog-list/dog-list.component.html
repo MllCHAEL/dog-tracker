@@ -5,6 +5,7 @@
       <th>Name</th>
       <th>Barks a lot</th>
       <th>Id (here temporarily)</th>
+      <th></th>
     </tr>
   </thead>
   <tbody *ngIf="!dogList">Loading...</tbody>
@@ -14,6 +15,12 @@
       <td>{{dog.name}}</td>
       <td>{{dog.barksALot}}</td>
       <td>{{dog.id}}</td>
+      <td>
+        <mat-icon class="deleteIcon"
+                  (click)="deleteDog(dog)">
+          delete
+        </mat-icon>
+      </td>
     </tr>
   </tbody>
 </table>

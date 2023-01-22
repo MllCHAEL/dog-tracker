@@ -27,7 +27,7 @@ namespace dog_tracker_back_end
             var newDog = JsonConvert.DeserializeObject<Dog>(requestBody);
 
             var cosmosDefaultUrl = "https://localhost:8081/";
-            var cosmosDefaultKey = "cosmosDefaultKey"; // TODO: Don't reveal secret in source code";
+            var cosmosDefaultKey = "cosmosDefaultKey"; // TODO: Don't reveal secret in source code
             CosmosClient cosmosClient = new CosmosClient(cosmosDefaultUrl, cosmosDefaultKey);
 
             var databaseName = "DogAppDatabase";

@@ -1,7 +1,9 @@
-using System.Net;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace dog_tracker_back_end
 {
@@ -15,20 +17,28 @@ namespace dog_tracker_back_end
         }
 
         [Function("DeleteDog")]
-        public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req)
+        // TODO: Update method use and work with "delete" (instead of "post")
+        public static async Task<IActionResult> Run(
+            [HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequestData req,
+            ILogger logger)
         {
-            // TODO: Update log message to be accurate / function-specific
-            _logger.LogInformation("C# HTTP trigger function processed a request.");
+            // TODO: Add helpful logging
 
-            // TODO: Delete dog from cosmos db
-            // TODO: Return actual dog list from CosmosDB after upload (note: return below likely to change)
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            var newDog = JsonConvert.DeserializeObject<Dog>(requestBody);
 
-            var response = req.CreateResponse(HttpStatusCode.OK);
-            response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
+            var cosmosDefaultUrl = "https://localhost:8081/";
+            var cosmosDefaultKey = "cosmosDefaultKey"; // TODO: Don't reveal secret in source code
+            CosmosClient cosmosClient = new CosmosClient(cosmosDefaultUrl, cosmosDefaultKey);
 
-            response.WriteString("Welcome to Azure Functions!");
+            var databaseName = "DogAppDatabase";
+            var collectionName = "DogsListContainer";
+            var cosmosContainer = cosmosClient.GetContainer(databaseName, collectionName);
 
-            return response;
+            await cosmosContainer.DeleteItemAsync<Dog>(newDog.id, new PartitionKey(newDog.id));
+
+            // TODO: Finalise return value (i.e. potentially add headers - e.g. Content-Type)
+            return new OkObjectResult(newDog);
         }
     }
 }

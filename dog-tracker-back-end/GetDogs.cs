@@ -1,5 +1,3 @@
-using System.Net;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -17,9 +15,9 @@ namespace dog_tracker_back_end
         }
 
         [Function("GetDogs")]
-        public async Task<List<Dog>> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req)
+        public async Task<List<Dog>> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
         {
-            _logger.LogInformation("C# HTTP trigger function processed a request.");
+            // Add helpful logging
 
             var cosmosDefaultUrl = "https://localhost:8081/";
             var cosmosDefaultKey = "cosmosDefaultKey"; // TODO: Don't reveal secret in source code
@@ -43,8 +41,6 @@ namespace dog_tracker_back_end
                     dogList.Add(item);
                 }
             }
-
-            // TODO: Add logging
 
             return dogList;
         }
