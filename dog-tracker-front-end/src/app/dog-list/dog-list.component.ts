@@ -19,7 +19,8 @@ export class DogListComponent implements OnInit {
 
   deleteDog(dogData: Dog) {
     // TODO: Update post to a delete (alongside AzFn)
-    this.http.post('http://localhost:7071/api/DeleteDog', dogData).subscribe(result => {
+    // TODO: Encode dogData before appending to url
+    this.http.delete(`http://localhost:7071/api/DeleteDog/${dogData.id}`).subscribe(result => {
       console.log(`Dog '${dogData.name}' deleted.\nRequest details: `, result), this.http.get<Dog[]>('http://localhost:7071/api/GetDogs').pipe(take(1)).subscribe(
         dogs => this.dogList = dogs)
     });
