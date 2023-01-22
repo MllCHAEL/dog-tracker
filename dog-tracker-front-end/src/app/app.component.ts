@@ -13,6 +13,6 @@ export class AppComponent {
 
   updateDogList($event: Dog[]) {
     this.updatedDogList = $event;
-    console.log("Dog table display updated.")
+    console.log("Dog table display updated. \n[UI updated]")
   }
 }
