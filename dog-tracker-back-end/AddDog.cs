@@ -1,9 +1,9 @@
-using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace dog_tracker_back_end
 {
@@ -17,31 +17,28 @@ namespace dog_tracker_back_end
         }
 
         [Function("AddDog")]
-        // TODO: Convert to just POST
-        public async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req)
+        public static async Task<IActionResult> Run(
+            [HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequestData req,
+            ILogger logger)
         {
+            // TODO: Add helpful logging
+
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            var newDog = JsonConvert.DeserializeObject<Dog>(requestBody);
 
             var cosmosDefaultUrl = "https://localhost:8081/";
-            var cosmosDefaultKey = "CosmosDefaultKey"; // TODO: Don't reveal secret in source code
+            var cosmosDefaultKey = "cosmosDefaultKey"; // TODO: Don't reveal secret in source code";
             CosmosClient cosmosClient = new CosmosClient(cosmosDefaultUrl, cosmosDefaultKey);
 
             var databaseName = "DogAppDatabase";
             var collectionName = "DogsListContainer";
             var cosmosContainer = cosmosClient.GetContainer(databaseName, collectionName);
 
-            // TODO: Add actual dog from user input
-            var newItem = new Dog
-            {
-                id = System.Guid.NewGuid().ToString(),
-                name = "Add dog test",
-                barksALot = true
-            };
+            newDog.id = System.Guid.NewGuid().ToString(); // TODO: Potentially initialise elsewhere (i.e. see if defaulting feesible)
+            await cosmosContainer.CreateItemAsync(newDog);
 
-            var itemResponse = await cosmosContainer.CreateItemAsync(newItem);
-            _logger.LogInformation("Uploading dog to CosmosDb");
-
-            // TODO: Return actual dog list from CosmosDB after upload (note: return below likely to change) - Could also not occur in this Fn - Tbd
-            return new OkObjectResult(newItem);
+            // TODO: Finalise return value (i.e. potentially add headers - e.g. Content-Type)
+            return new OkObjectResult(newDog);
         }
     }
 }
