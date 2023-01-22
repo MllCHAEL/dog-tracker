@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { take } from 'rxjs/operators';
+import { concatMap, take, tap } from 'rxjs/operators';
 import { Dog } from '../dog';
 
 @Component({
@@ -17,10 +17,10 @@ export class DogListComponent implements OnInit {
   deleteDog(dogData: Dog) {
     // TODO: Update post to a delete (alongside AzFn)
     // TODO: Encode dogData before appending to url
-    this.http.delete(`http://localhost:7071/api/DeleteDog/${dogData.id}`).subscribe(result => {
-      console.log(`Dog '${dogData.name}' deleted.\nRequest details: `, result), this.http.get<Dog[]>('http://localhost:7071/api/GetDogs').pipe(take(1)).subscribe(
-        newDogList => this.dogList = newDogList)
-    });
+    this.http.delete(`http://localhost:7071/api/DeleteDog/${dogData.id}`).pipe(take(1),
+      tap(dogDeleted => console.log(`Dog '${dogData.name}' deleted`)),
+      concatMap(newDogList => this.http.get<Dog[]>('http://localhost:7071/api/GetDogs').pipe(take(1),
+        tap(newDogList => this.dogList = newDogList)))).subscribe();
   }
 
   ngOnInit() {
