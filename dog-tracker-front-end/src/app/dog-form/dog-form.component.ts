@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dog-form',
@@ -8,7 +8,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./dog-form.component.scss']
 })
 
-export class DogFormComponent implements OnInit {
+export class DogFormComponent {
 
   constructor(private http: HttpClient) { };
 
@@ -27,15 +27,24 @@ export class DogFormComponent implements OnInit {
       return
     }
 
-    // TODO: Return correct format of actual dogs list and convert to POST
-    this.http.get('http://localhost:7071/api/AddDog').subscribe(result => console.log(result));
+    // TODO: Determine if keeping/desirable
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
 
-    console.log('Dog name:' + this.dogForm.controls.name.value, 'Barks a lot?', this.dogForm.controls.barksALot.value);
+    var newDog = {
+      "name": this.dogForm.controls.name.value,
+      "barksALot": this.dogForm.controls.barksALot.value
+    };
+
+    this.http.post('http://localhost:7071/api/AddDog', newDog, httpOptions).subscribe(result =>
+      console.log(`New dog '${newDog.name}' added.\nRequest details: `, result));
+
+    // TODO: Update dogs table after POST (requires investigation)
+
     this.dogForm.reset();
     this.dogForm.controls.barksALot.setValue(false);
-  }
-
-  ngOnInit() {
-    // TODO: ngOnInit if it is never used (think it will be used though :p)
   }
 }
