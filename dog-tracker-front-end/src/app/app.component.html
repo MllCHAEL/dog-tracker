@@ -1,3 +1,3 @@
 <h1>Dog tracker</h1>
 <app-dog-form (dogAddedEvent)="updateDogList($event)"></app-dog-form>
-<app-dog-list [(updateDogList)]="dogAdded"></app-dog-list>
+<app-dog-list [dogList]="updatedDogList"></app-dog-list>

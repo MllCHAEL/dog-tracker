@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Dog } from './dog';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,9 @@ import { Component } from '@angular/core';
 
 export class AppComponent {
 
-  dogAdded: Boolean = false;
+  updatedDogList!: Dog[];
 
-  updateDogList($event: Boolean) {
-    this.dogAdded = $event;
+  updateDogList($event: Dog[]) {
+    this.updatedDogList = $event;
   }
 }

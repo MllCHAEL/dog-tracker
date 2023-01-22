@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { take } from 'rxjs/operators';
+import { Dog } from '../dog';
 
 @Component({
   selector: 'app-dog-form',
@@ -12,7 +14,7 @@ export class DogFormComponent {
 
   constructor(private http: HttpClient) { };
 
-  @Output() dogAddedEvent = new EventEmitter<Boolean>();
+  @Output() dogAddedEvent = new EventEmitter<Dog[]>();
 
   // TODO: Add validation for pure whitespace input (e.g. just spacebars)
   public dogForm = new FormGroup({
@@ -45,7 +47,8 @@ export class DogFormComponent {
 
     this.http.post('http://localhost:7071/api/AddDog', newDog, httpOptions).subscribe(result => {
       console.log(`New dog '${newDog.name}' added.\nRequest details: `, result),
-      this.dogAddedEvent.emit(true)
+        this.http.get<Dog[]>('http://localhost:7071/api/GetDogs').pipe(take(1)).subscribe(
+          newDogList => this.dogAddedEvent.emit(newDogList))
     });
 
     this.dogForm.reset();
