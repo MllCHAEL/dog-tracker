@@ -19,7 +19,7 @@ export class DogListComponent implements OnInit {
     this.http.delete(`http://localhost:7071/api/DeleteDog/${dogData.id}`).pipe(take(1),
       tap(dogDeleted => console.log(`Dog '${dogData.name}' deleted`)),
       concatMap(getNewDogList => this.http.get<Dog[]>('http://localhost:7071/api/GetDogs').pipe(take(1),
-        tap(newDogList => this.dogList = newDogList)))).subscribe();
+        tap(newDogList => { this.dogList = newDogList, console.log("Dog table display updated.") })))).subscribe();
   }
 
   ngOnInit() {

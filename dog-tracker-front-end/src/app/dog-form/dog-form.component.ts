@@ -46,7 +46,7 @@ export class DogFormComponent {
     };
 
     this.http.post('http://localhost:7071/api/AddDog', newDog, httpOptions).pipe(take(1),
-      tap(dogAdded => console.log(`New dog '${newDog.name}' added.\nRequest details: `)),
+      tap(dogAdded => console.log(`New dog '${newDog.name}' added.`)),
       concatMap(getNewDogList => this.http.get<Dog[]>('http://localhost:7071/api/GetDogs').pipe(take(1),
         tap(newDogList => this.dogAddedEvent.emit(newDogList))))).subscribe();
 
