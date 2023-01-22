@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -11,6 +11,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class DogFormComponent {
 
   constructor(private http: HttpClient) { };
+
+  @Output() dogAddedEvent = new EventEmitter<Boolean>();
 
   // TODO: Add validation for pure whitespace input (e.g. just spacebars)
   public dogForm = new FormGroup({
@@ -27,6 +29,8 @@ export class DogFormComponent {
       return
     }
 
+    // TODO: Disable button while processing
+
     // TODO: Determine if keeping/desirable
     const httpOptions = {
       headers: new HttpHeaders({
@@ -39,10 +43,10 @@ export class DogFormComponent {
       "barksALot": this.dogForm.controls.barksALot.value
     };
 
-    this.http.post('http://localhost:7071/api/AddDog', newDog, httpOptions).subscribe(result =>
-      console.log(`New dog '${newDog.name}' added.\nRequest details: `, result));
-
-    // TODO: Update dogs table after POST (requires investigation)
+    this.http.post('http://localhost:7071/api/AddDog', newDog, httpOptions).subscribe(result => {
+      console.log(`New dog '${newDog.name}' added.\nRequest details: `, result),
+      this.dogAddedEvent.emit(true)
+    });
 
     this.dogForm.reset();
     this.dogForm.controls.barksALot.setValue(false);
