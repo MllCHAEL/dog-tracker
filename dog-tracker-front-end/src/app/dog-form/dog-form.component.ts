@@ -1,7 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { take } from 'rxjs/operators';
+import { concat } from 'rxjs';
+import { NewDog } from '../dog';
 import { DogService } from '../dog.service';
 
 @Component({
@@ -25,30 +26,18 @@ export class DogFormComponent {
     if (!this.dogForm.valid) {
       this.dogForm.reset();
       this.dogForm.controls.barksALot.setValue(false);
-      console.log('Invalid dog submission. Fields have been reset. ')
+      console.log('Invalid dog submission. Input fields have been reset. ')
       return
     }
 
-    // TODO: Disable button while processing
+   // Disable 'add dog' button while processing (and add loading spinner)
 
-    // TODO: Determine if keeping/desirable
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
+    var newDog: NewDog = {
+      name: this.dogForm.controls.name.value || "Default",
+      barksALot: this.dogForm.controls.barksALot.value || false
     };
 
-    var newDog = {
-      "name": this.dogForm.controls.name.value,
-      "barksALot": this.dogForm.controls.barksALot.value
-    };
-
-    // TODO: Create addDog method in dog.service and update below to use concat
-    this.http.post('http://localhost:7071/api/AddDog', newDog, httpOptions).pipe(take(1)).subscribe(
-      logAddAndUpdateDogList => {
-        console.log(`New dog '${newDog.name}' added.\n[UI outdated]`),
-          this.dogService.updateDogList().subscribe()
-      });
+    concat(this.dogService.addDog(newDog), this.dogService.updateDogList()).subscribe();
 
     this.dogForm.reset();
     this.dogForm.controls.barksALot.setValue(false);
