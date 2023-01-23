@@ -6,6 +6,7 @@ table {
   border-spacing: 0;
   background: white;
   box-shadow: 0 5px 5px -3px #0003, 0 8px 10px 1px #00000024, 0 3px 14px 2px #0000001f;
+  margin: auto;
 }
 
 th, td {
@@ -14,7 +15,6 @@ th, td {
   border-bottom-width: 1px;
   border-bottom-style: solid;
   border-bottom-color: #0000001f;
-  // TODO: Decide on font
 }
 
 tr:hover {
@@ -22,5 +22,5 @@ tr:hover {
 }
 
 .deleteIcon:hover {
-    cursor:pointer
+  cursor: pointer
 }

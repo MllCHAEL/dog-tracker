@@ -15,7 +15,7 @@ export class DogListComponent {
   constructor(private http: HttpClient, public dogService: DogService) { };
 
   deleteDog(dog: Dog) {
-    // TODO: Encode dogData before appending to url
+    // TODO: Encode dogData before appending to url (if mimicking sensitive data)
     concat(this.dogService.deleteDog(dog), this.dogService.updateDogList()).subscribe()
   }
 }

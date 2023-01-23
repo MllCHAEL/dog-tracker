@@ -1,17 +1,20 @@
 <form [formGroup]="dogForm">
-  <mat-form-field appearance="outline">
+  <mat-form-field class="dog-name-input"
+                  appearance="outline">
     <mat-label>Dog name</mat-label>
     <input matInput formControlName="name" maxlength="20">
   </mat-form-field>
 
-  <mat-checkbox formControlName="barksALot">
-    Barks a lot?
-  </mat-checkbox>
+  <div class="checkbox-and-button">
+    <mat-checkbox formControlName="barksALot">
+      Barks a lot?
+    </mat-checkbox>
 
+    <button mat-raised-button
+            class="add-dog-button"
+            (click)="addDog()"
+            [disabled]="!dogForm.valid">
+      add dog
+    </button>
+  </div>
 </form>
-
-<button mat-raised-button
-        (click)="addDog()"
-        [disabled]="!dogForm.valid">
-  add dog
-</button>

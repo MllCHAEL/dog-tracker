@@ -1,1 +1,19 @@
-// TODO: Set min & max widths (remember to check multiple mobile views during testing)
+// TODO: Fix table width and make mobile friendly
+
+.dog-name-input {
+  display: flex;
+  justify-content: center;
+  max-width:300px;
+  margin: auto;
+}
+
+.checkbox-and-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.add-dog-button {
+    margin-left: 24px;
+}
