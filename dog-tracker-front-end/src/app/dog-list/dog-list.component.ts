@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { take } from 'rxjs/operators';
+import { concat } from 'rxjs';
 import { Dog } from '../dog';
 import { DogService } from '../dog.service';
 
@@ -14,12 +14,8 @@ export class DogListComponent {
 
   constructor(private http: HttpClient, public dogService: DogService) { };
 
-  deleteDog(dogData: Dog) {
+  deleteDog(dog: Dog) {
     // TODO: Encode dogData before appending to url
-    this.http.delete(`http://localhost:7071/api/DeleteDog/${dogData.id}`).pipe(take(1)).subscribe(
-      logDeleteAndUpdateDogList => {
-        console.log(`Dog '${dogData.name}' deleted.\n[UI outdated]`),
-          this.dogService.updateDogList()
-      })
+    concat(this.dogService.deleteDog(dog), this.dogService.updateDogList()).subscribe()
   }
 }

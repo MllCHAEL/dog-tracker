@@ -43,10 +43,11 @@ export class DogFormComponent {
       "barksALot": this.dogForm.controls.barksALot.value
     };
 
+    // TODO: Create addDog method in dog.service and update below to use concat
     this.http.post('http://localhost:7071/api/AddDog', newDog, httpOptions).pipe(take(1)).subscribe(
       logAddAndUpdateDogList => {
         console.log(`New dog '${newDog.name}' added.\n[UI outdated]`),
-          this.dogService.updateDogList()
+          this.dogService.updateDogList().subscribe()
       });
 
     this.dogForm.reset();
