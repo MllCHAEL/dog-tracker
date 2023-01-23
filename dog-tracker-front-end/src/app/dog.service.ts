@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, concatMap, Observable, Subject, take, tap } from 'rxjs';
+import { take } from 'rxjs';
 import { Dog } from './dog';
 
 @Injectable({
