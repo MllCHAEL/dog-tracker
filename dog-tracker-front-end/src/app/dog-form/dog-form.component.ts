@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { concatMap, take, tap } from 'rxjs/operators';
-import { Dog } from '../dog';
+import { take } from 'rxjs/operators';
+import { DogService } from '../dog.service';
 
 @Component({
   selector: 'app-dog-form',
@@ -12,9 +12,7 @@ import { Dog } from '../dog';
 
 export class DogFormComponent {
 
-  constructor(private http: HttpClient) { };
-
-  @Output() dogAddedEvent = new EventEmitter<Dog[]>();
+  constructor(private http: HttpClient, private dogService: DogService) { };
 
   // TODO: Add validation for pure whitespace input (e.g. just spacebars)
   public dogForm = new FormGroup({
@@ -45,10 +43,11 @@ export class DogFormComponent {
       "barksALot": this.dogForm.controls.barksALot.value
     };
 
-    this.http.post('http://localhost:7071/api/AddDog', newDog, httpOptions).pipe(take(1),
-      tap(dogAdded => console.log(`New dog '${newDog.name}' added.\n[UI outdated]`)),
-      concatMap(getNewDogList => this.http.get<Dog[]>('http://localhost:7071/api/GetDogs').pipe(take(1),
-        tap(newDogList => this.dogAddedEvent.emit(newDogList))))).subscribe();
+    this.http.post('http://localhost:7071/api/AddDog', newDog, httpOptions).pipe(take(1)).subscribe(
+      logAddAndUpdateDogList => {
+        console.log(`New dog '${newDog.name}' added.\n[UI outdated]`),
+          this.dogService.updateDogList()
+      });
 
     this.dogForm.reset();
     this.dogForm.controls.barksALot.setValue(false);

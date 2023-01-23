@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
-import { concatMap, take, tap } from 'rxjs/operators';
+import { Component } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { Dog } from '../dog';
+import { DogService } from '../dog.service';
 
 @Component({
   selector: 'app-dog-list',
@@ -9,21 +10,16 @@ import { Dog } from '../dog';
   styleUrls: ['./dog-list.component.scss']
 })
 
-export class DogListComponent implements OnInit {
-  @Input() dogList!: Dog[];
+export class DogListComponent {
 
-  constructor(private http: HttpClient) { };
+  constructor(private http: HttpClient, public dogService: DogService) { };
 
   deleteDog(dogData: Dog) {
     // TODO: Encode dogData before appending to url
-    this.http.delete(`http://localhost:7071/api/DeleteDog/${dogData.id}`).pipe(take(1),
-      tap(dogDeleted => console.log(`Dog '${dogData.name}' deleted.\n[UI outdated]`)),
-      concatMap(getNewDogList => this.http.get<Dog[]>('http://localhost:7071/api/GetDogs').pipe(take(1),
-        tap(newDogList => { this.dogList = newDogList, console.log("Dog table display updated.\n[UI updated]") })))).subscribe();
-  }
-
-  ngOnInit() {
-    this.http.get<Dog[]>('http://localhost:7071/api/GetDogs').pipe(take(1)).subscribe(
-      dogs => this.dogList = dogs)
+    this.http.delete(`http://localhost:7071/api/DeleteDog/${dogData.id}`).pipe(take(1)).subscribe(
+      logDeleteAndUpdateDogList => {
+        console.log(`Dog '${dogData.name}' deleted.\n[UI outdated]`),
+          this.dogService.updateDogList()
+      })
   }
 }
