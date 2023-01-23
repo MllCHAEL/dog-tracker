@@ -26,7 +26,7 @@ export class DogService {
       dogDeleted => console.log(`Dog '${dog.name}' deleted.\n[UI outdated]`)))
 
   }
-
+  // TODO: Specify type instead of any
   addDog(newDog: NewDog): Observable<any> {
     return this.http.post('http://localhost:7071/api/AddDog', newDog).pipe(take(1), tap(
       dogAdded => console.log(`New dog '${newDog.name}' added.\n[UI outdated]`)))
