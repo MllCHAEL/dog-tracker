@@ -34,8 +34,9 @@ namespace dog_tracker_back_end
             var collectionName = "DogsListContainer";
             var cosmosContainer = cosmosClient.GetContainer(databaseName, collectionName);
 
-            // Interview - Do not allow dogs with the same name to be saved to db
-            // Note: Used .Count() below instead of .Any() due to known issue with unnested .Any() causing error
+            // Note: .Any() is not a supported LINQ operator (though works inside Where clause)
+            // (https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/query/linq-to-sql#SupportedLinqOperators)
+            // TODO: Validate on front end too (potentially display validation error text too)
             var dogNameAvailable = cosmosContainer
                 .GetItemLinqQueryable<Dog>(allowSynchronousQueryExecution: true).
                 Count(dog => dog.name.ToUpper() == newDog.name.ToUpper()) == 0;
