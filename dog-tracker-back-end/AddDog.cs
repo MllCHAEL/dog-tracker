@@ -34,11 +34,23 @@ namespace dog_tracker_back_end
             var collectionName = "DogsListContainer";
             var cosmosContainer = cosmosClient.GetContainer(databaseName, collectionName);
 
-            var newDogWithId = new Dog(newDog.name, newDog.barksALot);
-            await cosmosContainer.CreateItemAsync(newDogWithId);
+            // Interview - Do not allow dogs with the same name to be saved to db
+            // Note: Used .Count() below instead of .Any() due to known issue with unnested .Any() causing error
+            var dogNameAvailable = cosmosContainer
+                .GetItemLinqQueryable<Dog>(allowSynchronousQueryExecution: true).
+                Count(dog => dog.name.ToUpper() == newDog.name.ToUpper()) == 0;
 
+            if (dogNameAvailable)
+            {
+                var newDogWithId = new Dog(newDog.name, newDog.barksALot);
+                await cosmosContainer.CreateItemAsync(newDogWithId);
+                return new OkObjectResult(newDogWithId);
+            }
+
+            // TODO: Make sure TypeScript doesn't console log 'New dog x added' or call GetDogs AzFn to update table (as dog was not added)
+            // TODO: Display dog name already taken on UI (for user's information)
             // TODO: Finalise return value (i.e. potentially add headers - e.g. Content-Type)
-            return new OkObjectResult(newDogWithId);
+            return new BadRequestObjectResult("Dog name already taken");
         }
     }
 }
