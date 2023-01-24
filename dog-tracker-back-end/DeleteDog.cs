@@ -17,7 +17,6 @@ namespace dog_tracker_back_end
         }
 
         [Function("DeleteDog")]
-        // TODO: Update method use and work with "delete" (instead of "post")
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "DeleteDog/{id}")] HttpRequestData req, string id,
             ILogger logger)

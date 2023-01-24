@@ -24,7 +24,7 @@ namespace dog_tracker_back_end
             // TODO: Add helpful logging
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var newDog = JsonConvert.DeserializeObject<Dog>(requestBody);
+            var newDog = JsonConvert.DeserializeObject<NewDog>(requestBody);
 
             var cosmosDefaultUrl = "https://localhost:8081/";
             var cosmosDefaultKey = "cosmosDefaultKey"; // TODO: Don't reveal secret in source code
@@ -34,11 +34,11 @@ namespace dog_tracker_back_end
             var collectionName = "DogsListContainer";
             var cosmosContainer = cosmosClient.GetContainer(databaseName, collectionName);
 
-            newDog.id = System.Guid.NewGuid().ToString(); // TODO: Potentially initialise elsewhere (i.e. see if defaulting feesible)
-            await cosmosContainer.CreateItemAsync(newDog);
+            var newDogWithId = new Dog(newDog.name, newDog.barksALot);
+            await cosmosContainer.CreateItemAsync(newDogWithId);
 
             // TODO: Finalise return value (i.e. potentially add headers - e.g. Content-Type)
-            return new OkObjectResult(newDog);
+            return new OkObjectResult(newDogWithId);
         }
     }
 }

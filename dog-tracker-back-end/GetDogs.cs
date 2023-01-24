@@ -17,7 +17,7 @@ namespace dog_tracker_back_end
         [Function("GetDogs")]
         public async Task<List<Dog>> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
         {
-            // Add helpful logging
+            // TODO: Add helpful logging
 
             var cosmosDefaultUrl = "https://localhost:8081/";
             var cosmosDefaultKey = "cosmosDefaultKey"; // TODO: Don't reveal secret in source code
@@ -27,22 +27,12 @@ namespace dog_tracker_back_end
             var collectionName = "DogsListContainer";
             var cosmosContainer = cosmosClient.GetContainer(databaseName, collectionName);
 
-            using FeedIterator<Dog> feed = cosmosContainer.GetItemQueryIterator<Dog>(
-                queryText: "SELECT * FROM DogsListContainer");
+            var allDogsQuery = cosmosContainer
+                .GetItemLinqQueryable<Dog>(allowSynchronousQueryExecution: true);
 
-            List<Dog> dogList = new List<Dog>();
+            var allDogs = allDogsQuery.ToList();
 
-            while (feed.HasMoreResults)
-            {
-                FeedResponse<Dog> results = await feed.ReadNextAsync();
-
-                foreach (Dog item in results)
-                {
-                    dogList.Add(item);
-                }
-            }
-
-            return dogList;
+            return allDogs;
         }
     }
 }
