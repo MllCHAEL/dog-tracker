@@ -17,6 +17,7 @@ export class DogListComponent {
   deleteDog(dog: Dog) {
     if (confirm(`Are you sure to delete this dog?: ${dog.name}`)) {
       // TODO: Encode dogData before appending to url (if mimicking sensitive data)
+      // TODO: Add deleting indicator (e.g. swap delete icon to mat spinner)
       concat(this.dogService.deleteDog(dog), this.dogService.getDogList()).subscribe();
     }
   }
