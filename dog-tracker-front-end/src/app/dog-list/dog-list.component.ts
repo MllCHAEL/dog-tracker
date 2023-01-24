@@ -15,8 +15,9 @@ export class DogListComponent {
   constructor(private http: HttpClient, public dogService: DogService) { };
 
   deleteDog(dog: Dog) {
-    // TODO: Add confirmation dialogue on delete
-    // TODO: Encode dogData before appending to url (if mimicking sensitive data)
-    concat(this.dogService.deleteDog(dog), this.dogService.getDogList()).subscribe();
+    if (confirm(`Are you sure to delete this dog?: ${dog.name}`)) {
+      // TODO: Encode dogData before appending to url (if mimicking sensitive data)
+      concat(this.dogService.deleteDog(dog), this.dogService.getDogList()).subscribe();
+    }
   }
 }
