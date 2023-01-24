@@ -40,6 +40,7 @@ export class DogFormComponent {
       barksALot: this.dogForm.controls.barksALot.value!
     };
 
+    // TODO: Inputs should be disabled (with spinner) until dog table updates and the newly added dog is visible
     concat(this.dogService.addDog(newDog), this.dogService.getDogList()).subscribe(result => {
       this.addingDog = false;
       this.dogForm.enable()
