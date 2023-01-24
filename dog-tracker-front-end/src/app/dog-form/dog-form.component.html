@@ -13,8 +13,9 @@
     <button mat-raised-button
             class="add-dog-button"
             (click)="addDog()"
-            [disabled]="!dogForm.valid">
+            [disabled]="!dogForm.valid || this.addingDog">
       add dog
     </button>
+    <mat-spinner *ngIf="this.addingDog" diameter="30" class="ml-8"></mat-spinner>
   </div>
 </form>

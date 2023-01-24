@@ -13,14 +13,16 @@ import { DogService } from '../dog.service';
 
 export class DogFormComponent {
 
+  public addingDog: boolean = false;
+
   constructor(private http: HttpClient, private dogService: DogService) { };
 
-  // TODO: Add validation for pure whitespace input (e.g. just spacebars)
+  // TODO: Increase validation (e.g. for pure whitespace input - just spacebars, odd characters - @, etc.)
   public dogForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.maxLength(20)]),
     barksALot: new FormControl(false, Validators.required)
   });
-  // TODO: Optionally display validation error messages (E.g. "Char limit (20) exceeded") - Can be skipped as UI limits chars
+  // TODO: Optionally display validation error messages (E.g. "Char limit (20) exceeded" - Can be skipped as UI limits chars)
 
   public addDog(): void {
     if (!this.dogForm.valid) {
@@ -29,15 +31,19 @@ export class DogFormComponent {
       console.log('Invalid dog submission. Input fields have been reset. ')
       return
     }
-
-    // Disable 'add dog' button while processing (and add loading spinner)
+    this.addingDog = true;
+    this.dogForm.disable();
+    // TODO: Loading spinner being displayed should not cause existing checkbox and 'add dog' button to shift horizontally
 
     var newDog: NewDog = {
       name: this.dogForm.controls.name.value!,
       barksALot: this.dogForm.controls.barksALot.value!
     };
 
-    concat(this.dogService.addDog(newDog), this.dogService.getDogList()).subscribe();
+    concat(this.dogService.addDog(newDog), this.dogService.getDogList()).subscribe(result => {
+      this.addingDog = false;
+      this.dogForm.enable()
+    });
 
     this.dogForm.reset();
     this.dogForm.controls.barksALot.setValue(false);

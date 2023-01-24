@@ -20,4 +20,7 @@ export class DogListComponent {
       concat(this.dogService.deleteDog(dog), this.dogService.getDogList()).subscribe();
     }
   }
+
+  // TODO: Display indicator when table is updating (e.g. Fetching updated dogs list... above table - potentially spinner too)
+
 }
