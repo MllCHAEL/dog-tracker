@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Dog } from './dog';
 
 @Component({
   selector: 'app-root',
@@ -7,12 +6,4 @@ import { Dog } from './dog';
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent {
-
-  updatedDogList!: Dog[];
-
-  updateDogList($event: Dog[]) {
-    this.updatedDogList = $event;
-    console.log("Dog table display updated. \n[UI updated]")
-  }
-}
+export class AppComponent { }

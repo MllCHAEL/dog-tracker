@@ -30,14 +30,14 @@ export class DogFormComponent {
       return
     }
 
-   // Disable 'add dog' button while processing (and add loading spinner)
+    // Disable 'add dog' button while processing (and add loading spinner)
 
     var newDog: NewDog = {
-      name: this.dogForm.controls.name.value || "Default",
-      barksALot: this.dogForm.controls.barksALot.value || false
+      name: this.dogForm.controls.name.value!,
+      barksALot: this.dogForm.controls.barksALot.value!
     };
 
-    concat(this.dogService.addDog(newDog), this.dogService.updateDogList()).subscribe();
+    concat(this.dogService.addDog(newDog), this.dogService.getDogList()).subscribe();
 
     this.dogForm.reset();
     this.dogForm.controls.barksALot.setValue(false);

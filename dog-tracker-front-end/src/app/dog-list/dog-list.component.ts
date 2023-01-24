@@ -17,6 +17,6 @@ export class DogListComponent {
   deleteDog(dog: Dog) {
     // TODO: Add confirmation dialogue on delete
     // TODO: Encode dogData before appending to url (if mimicking sensitive data)
-    concat(this.dogService.deleteDog(dog), this.dogService.updateDogList()).subscribe()
+    concat(this.dogService.deleteDog(dog), this.dogService.getDogList()).subscribe();
   }
 }
