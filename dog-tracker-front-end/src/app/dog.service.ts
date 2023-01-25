@@ -34,6 +34,16 @@ export class DogService {
   // TODO: Specify type instead of any
   addDog(newDog: NewDog): Observable<any> {
     return this.http.post('http://localhost:7071/api/AddDog', newDog).pipe(take(1), tap(
-      dogAdded => console.log(`New dog '${newDog.name}' added.\n[UI outdated]`)));
+      dogAdded => {
+        console.log(`New dog '${newDog.name}' added.\n[UI outdated]`);
+        // This dog is not deletable until its Id is overridden via getDogs()
+        // TODO: Try make below more concise
+        var tempDog: Dog = {
+          id: 'Fetching id...',
+          name: newDog.name,
+          barksALot: newDog.barksALot
+        };
+        this.dogList.push(tempDog);
+      }));
   }
 }

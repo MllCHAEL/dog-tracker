@@ -15,14 +15,15 @@
       <td>{{dog.barksALot}}</td>
       <td>{{dog.id}}</td>
       <td>
-        <mat-icon *ngIf="!this.dogsToDelete.includes(dog.id)"
-                  class="deleteIcon"
-                  (click)="deleteDog(dog)">
-          delete
-        </mat-icon>
+        <button mat-icon-button *ngIf="!this.dogsToDelete.includes(dog.id)"
+                class="deleteIcon"
+                (click)="deleteDog(dog)"
+                [disabled]="dog.id==='Fetching id...'">
+          <mat-icon>delete</mat-icon>
+        </button>
         <mat-spinner *ngIf="this.dogsToDelete.includes(dog.id)"
                      class="spinner"
-                     diameter="23">
+                     diameter="22">
         </mat-spinner>
       </td>
     </tr>
