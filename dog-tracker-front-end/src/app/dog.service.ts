@@ -20,7 +20,7 @@ export class DogService {
       .pipe(take(1),
         tap(updatedDogList => {
           this.dogList = updatedDogList;
-          console.log("Dog table display updated.\n[UI updated]");
+          console.log("Display table data updated.");
         }));
   }
 
@@ -28,14 +28,18 @@ export class DogService {
   deleteDog(dog: Dog): Observable<any> {
     return this.http.delete(`http://localhost:7071/api/DeleteDog/${dog.id}`)
       .pipe(take(1),
-        tap(dogDeleted => console.log(`Dog '${dog.name}' deleted.\n[UI outdated]`)));
+        tap(dogDeleted => {
+          var deleteUIDogIndex = this.dogList.indexOf(dog);
+          this.dogList.splice(deleteUIDogIndex, 1);
+          console.log(`Dog '${dog.name}' deleted.`);
+        }));
 
   }
   // TODO: Specify type instead of any
   addDog(newDog: NewDog): Observable<any> {
     return this.http.post('http://localhost:7071/api/AddDog', newDog).pipe(take(1), tap(
       dogAdded => {
-        console.log(`New dog '${newDog.name}' added.\n[UI outdated]`);
+        console.log(`New dog '${newDog.name}' added. Updating table data.`);
         // This dog is not deletable until its Id is overridden via getDogs()
         // TODO: Try make below more concise
         var tempDog: Dog = {
