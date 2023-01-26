@@ -32,6 +32,7 @@ export class DogService {
           var deleteUIDogIndex = this.dogList.indexOf(dog);
           this.dogList.splice(deleteUIDogIndex, 1);
           console.log(`Dog '${dog.name}' deleted.`);
+          // TODO: Resolve bug when adding dogA and deleting dogB while dogA is still 'Fetching id' (wrong dog [dogA] appears deleted until refresh - subsequent flow-on effects on UI)
         }));
 
   }
